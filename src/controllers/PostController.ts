@@ -21,6 +21,20 @@ class PostController {
 			res.json(e.message);
 		}
 	}
+
+	async changePost(req: Request, res: Response) {
+		try {
+			const post = await myDataSource.getRepository(Post).findOneBy({
+				id: +req.params.id,
+			});
+			console.log(post);
+			myDataSource.getRepository(Post).merge(post, req.body);
+			const results = await myDataSource.getRepository(Post).save(post);
+			return res.send(results);
+		} catch (e) {
+			res.json(e.message);
+		}
+	}
 }
 export default new PostController();
 
