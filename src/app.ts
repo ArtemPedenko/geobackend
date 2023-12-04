@@ -21,7 +21,7 @@ async function startApp() {
 	try {
 		app.listen(PORT, () => console.log("server is working", PORT));
 	} catch (e) {
-		console.log(e);
+		console.log(e.message);
 	}
 }
 

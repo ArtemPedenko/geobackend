@@ -8,7 +8,7 @@ class PostController {
 			const posts = await myDataSource.getRepository(Post).find();
 			res.json(posts);
 		} catch (e) {
-			res.json(e.message);
+			res.json({ sucess: true, message: e.message });
 		}
 	}
 
@@ -16,23 +16,50 @@ class PostController {
 		try {
 			const post = await myDataSource.getRepository(Post).create(req.body);
 			const results = await myDataSource.getRepository(Post).save(post);
-			return res.send(results);
+			return res.send({ sucess: true, message: results });
 		} catch (e) {
-			res.json(e.message);
+			res.json({ sucess: true, message: e.message });
 		}
 	}
 
 	async changePost(req: Request, res: Response) {
 		try {
+			//find post with same id
 			const post = await myDataSource.getRepository(Post).findOneBy({
 				id: +req.params.id,
 			});
-			console.log(post);
+			if (!post) {
+				return res
+					.status(404)
+					.json({ sucess: false, message: "Пост не найден" });
+			}
+			//merge it with request
 			myDataSource.getRepository(Post).merge(post, req.body);
+			//save changed post
 			const results = await myDataSource.getRepository(Post).save(post);
-			return res.send(results);
+			return res.send({ sucess: true, message: results });
 		} catch (e) {
-			res.json(e.message);
+			res.json({ sucess: true, message: e.message });
+		}
+	}
+
+	async deletePost(req: Request, res: Response) {
+		try {
+			//find post with same id
+			const post = await myDataSource.getRepository(Post).findOneBy({
+				id: +req.params.id,
+			});
+			if (!post) {
+				return res
+					.status(404)
+					.json({ sucess: false, message: "Пост не найден" });
+			}
+			const results = await myDataSource
+				.getRepository(Post)
+				.delete(req.params.id);
+			return res.send({ sucess: true, message: results });
+		} catch (e) {
+			res.json({ sucess: true, message: e.message });
 		}
 	}
 }
