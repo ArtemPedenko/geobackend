@@ -1,7 +1,7 @@
 import * as express from "express";
 import myDataSource from "./app-data-source";
 import "dotenv/config";
-import router from "./roter";
+import router from "./routes/postsRouter";
 
 myDataSource
 	.initialize()
