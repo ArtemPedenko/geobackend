@@ -6,9 +6,12 @@ class User {
 	id: number;
 
 	@Column()
-	firstName: string;
+	login: string;
 
 	@Column()
-	lastName: string;
+	password: string;
+
+	@Column()
+	refreshToken: string;
 }
 export default User;

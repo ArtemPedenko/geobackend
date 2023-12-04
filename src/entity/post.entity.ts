@@ -7,5 +7,11 @@ class Post {
 
 	@Column({ type: "json" })
 	content: object;
+
+	@Column()
+	author: string;
+
+	@Column()
+	date: string;
 }
 export default Post;
