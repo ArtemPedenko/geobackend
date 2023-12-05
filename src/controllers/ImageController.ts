@@ -1,28 +1,35 @@
 import myDataSource from "../app-data-source";
 import { Request, Response } from "express";
 import Image from "../entity/images.entity";
+import ImageService from "../services/ImageService";
 
-class PostController {
-	async getAllPosts(req: Request, res: Response) {
+const service = new ImageService();
+
+interface CustomRequest extends Request {
+	files?: any;
+}
+
+class ImageController {
+	async getAllImgaes(req: Request, res: Response) {
 		try {
-			const posts = await myDataSource.getRepository(Image).find();
-			res.json(posts);
+			const result = await service.getAllImages();
+			return { sucess: true, message: result };
 		} catch (e) {
 			res.json({ sucess: true, message: e.message });
 		}
 	}
 
-	async createPost(req: Request, res: Response) {
+	async uploadImage(req: any, res: Response) {
 		try {
-			const post = await myDataSource.getRepository(Image).create(req.body);
-			const results = await myDataSource.getRepository(Image).save(post);
-			return res.send({ sucess: true, message: results });
+			console.log(req.files);
+			const result = await service.uploadImage(req.files);
+			return res.send({ sucess: true, message: result });
 		} catch (e) {
 			res.json({ sucess: true, message: e.message });
 		}
 	}
 
-	async deletePost(req: Request, res: Response) {
+	async deleteImage(req: Request, res: Response) {
 		try {
 			//find post with same id
 			const post = await myDataSource.getRepository(Image).findOneBy({
@@ -42,4 +49,4 @@ class PostController {
 		}
 	}
 }
-export default PostController;
+export default ImageController;

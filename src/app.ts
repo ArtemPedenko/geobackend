@@ -1,7 +1,9 @@
-import * as express from "express";
+import express from "express";
 import myDataSource from "./app-data-source";
 import "dotenv/config";
-import router from "./routes/postsRouter";
+import postsRouter from "./routes/postsRouter";
+import imagesRouter from "./routes/imagesRouter";
+import fileUpload from "express-fileupload";
 
 myDataSource
 	.initialize()
@@ -14,8 +16,11 @@ myDataSource
 
 const app = express();
 app.use(express.json());
+app.use(fileUpload({}));
+app.use("/api/posts", postsRouter);
+app.use("/api/images", imagesRouter);
+
 const PORT = process.env.PORT;
-app.use("/api", router);
 
 async function startApp() {
 	try {

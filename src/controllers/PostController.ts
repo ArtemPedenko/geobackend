@@ -1,11 +1,14 @@
 import myDataSource from "../app-data-source";
 import Post from "../entity/post.entity";
 import { Request, Response } from "express";
+import PostService from "../services/PostService";
+
+const service = new PostService();
 
 class PostController {
 	async getAllPosts(req: Request, res: Response) {
 		try {
-			const result = await myDataSource.getRepository(Post).find();
+			const result = await service.getAllPosts();
 			res.json(result);
 		} catch (e) {
 			res.json({ sucess: true, message: e.message });
@@ -14,9 +17,7 @@ class PostController {
 
 	async getOnePost(req: Request, res: Response) {
 		try {
-			const results = await myDataSource.getRepository(Post).findOneBy({
-				id: +req.params.id,
-			});
+			const results = await service.getOnePost(+req.params.id);
 			return res.send(results);
 		} catch (e) {
 			res.json({ sucess: true, message: e.message });
