@@ -5,8 +5,19 @@ import { Request, Response } from "express";
 class PostController {
 	async getAllPosts(req: Request, res: Response) {
 		try {
-			const posts = await myDataSource.getRepository(Post).find();
-			res.json(posts);
+			const result = await myDataSource.getRepository(Post).find();
+			res.json(result);
+		} catch (e) {
+			res.json({ sucess: true, message: e.message });
+		}
+	}
+
+	async getOnePost(req: Request, res: Response) {
+		try {
+			const results = await myDataSource.getRepository(Post).findOneBy({
+				id: +req.params.id,
+			});
+			return res.send(results);
 		} catch (e) {
 			res.json({ sucess: true, message: e.message });
 		}
@@ -63,4 +74,4 @@ class PostController {
 		}
 	}
 }
-export default new PostController();
+export default PostController;
