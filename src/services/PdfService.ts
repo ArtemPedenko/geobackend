@@ -32,7 +32,7 @@ class PdfService {
 		}
 		//delete post
 		const fileName = pdf.name;
-		const filePath = path.resolve("public/images", fileName);
+		const filePath = path.resolve("public/pdfs", fileName);
 		fs.unlink(filePath, (error) => {
 			if (error) {
 				return error;

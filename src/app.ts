@@ -16,8 +16,11 @@ myDataSource
 	});
 
 const app = express();
+
 app.use(express.json());
 app.use(fileUpload({}));
+app.use(express.static("public"));
+
 app.use("/api/posts", postsRouter);
 app.use("/api/images", imagesRouter);
 app.use("/api/pdfs", pdfsRouter);
