@@ -1,40 +1,40 @@
 import { Request, Response } from "express";
-import ImageService from "../services/ImageService";
+import PdfService from "../services/PdfService";
 
-const service = new ImageService();
+const service = new PdfService();
 
 interface CustomRequest extends Request {
 	files?: any;
 }
 
-class ImageController {
-	async getAllImgaes(req: Request, res: Response) {
+class PdfController {
+	async getAllPdfs(req: Request, res: Response) {
 		try {
-			const result = await service.getAllImages();
+			const result = await service.getAllPdfs();
 			res.json(result);
 		} catch (e) {
 			res.json({ sucess: false, message: e.message });
 		}
 	}
 
-	async uploadImage(req: CustomRequest, res: Response) {
+	async uploadPdf(req: CustomRequest, res: Response) {
 		try {
-			const result = await service.uploadImage(req.files.file);
+			const result = await service.uploadPdf(req.files.file);
 			return res.send({ sucess: true, message: result });
 		} catch (e) {
 			res.json({ sucess: true, message: e.message });
 		}
 	}
 
-	async deleteImage(req: Request, res: Response) {
+	async deletePdf(req: Request, res: Response) {
 		try {
 			//find post with same id
 			const id = +req.params.id;
-			const result = await service.deleteImage({ id: id });
+			const result = await service.deletePdf({ id: id });
 			res.json(result);
 		} catch (e) {
 			res.json({ sucess: true, message: e.message });
 		}
 	}
 }
-export default ImageController;
+export default PdfController;

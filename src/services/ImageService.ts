@@ -19,8 +19,8 @@ class ImageService {
 		const imageObject: DeepPartial<Image> = {
 			name: fileName,
 		};
-		const post = myDataSource.getRepository(Image).create(imageObject);
-		const results = await myDataSource.getRepository(Image).save(post);
+		const image = myDataSource.getRepository(Image).create(imageObject);
+		const results = await myDataSource.getRepository(Image).save(image);
 		return results;
 	}
 
@@ -31,7 +31,6 @@ class ImageService {
 			return { sucess: false, message: "Картинка не найдена" };
 		}
 		//delete post
-		console.log(image.name);
 		const fileName = image.name;
 		const filePath = path.resolve("public/images", fileName);
 		fs.unlink(filePath, (error) => {
