@@ -58,18 +58,9 @@ class PostController {
 	async deletePost(req: Request, res: Response) {
 		try {
 			//find post with same id
-			const post = await myDataSource.getRepository(Post).findOneBy({
-				id: +req.params.id,
-			});
-			if (!post) {
-				return res
-					.status(404)
-					.json({ sucess: false, message: "Пост не найден" });
-			}
-			const results = await myDataSource
-				.getRepository(Post)
-				.delete(req.params.id);
-			return res.send({ sucess: true, message: results });
+			const id = +req.params.id;
+			const result = await service.deletePost({ id: id });
+			res.json(result);
 		} catch (e) {
 			res.json({ sucess: true, message: e.message });
 		}
