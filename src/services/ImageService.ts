@@ -1,6 +1,10 @@
 import { FindOptionsWhere } from "typeorm/find-options/FindOptionsWhere";
 import myDataSource from "../app-data-source";
 import Image from "../entity/images.entity";
+import { v4 as uuidv4 } from "uuid";
+import * as path from "path";
+import * as fs from "fs";
+import { DeepPartial } from "typeorm/common/DeepPartial";
 
 class ImageService {
 	async getAllImages() {
@@ -8,10 +12,16 @@ class ImageService {
 		return result;
 	}
 
-	async uploadImage(payload: any) {
-		/* const post = myDataSource.getRepository(Post).create(payload);
-		const results = await myDataSource.getRepository(Post).save(post);
-		return results; */
+	async uploadImage(file: { mv: (arg0: string) => void }) {
+		const fileName = uuidv4() + ".png";
+		const filePath = path.resolve("public/images", fileName);
+		file.mv(filePath);
+		const imageObject: DeepPartial<Image> = {
+			name: fileName,
+		};
+		const post = myDataSource.getRepository(Image).create(imageObject);
+		const results = await myDataSource.getRepository(Image).save(post);
+		return results;
 	}
 
 	/* 

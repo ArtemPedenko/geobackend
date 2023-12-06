@@ -19,10 +19,9 @@ class ImageController {
 		}
 	}
 
-	async uploadImage(req: any, res: Response) {
+	async uploadImage(req: CustomRequest, res: Response) {
 		try {
-			console.log(req.files);
-			const result = await service.uploadImage(req.files);
+			const result = await service.uploadImage(req.files.file);
 			return res.send({ sucess: true, message: result });
 		} catch (e) {
 			res.json({ sucess: true, message: e.message });
