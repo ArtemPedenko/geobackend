@@ -24,17 +24,24 @@ class ImageService {
 		return results;
 	}
 
-	/* 
-	async deleteImage(id: FindOptionsWhere<Post>) {
+	async deleteImage(id: FindOptionsWhere<Image>) {
 		//find post with same id
-		const post = await myDataSource.getRepository(Post).findOneBy(id);
-		if (!post) {
-			return { sucess: false, message: "Пост не найден" };
+		const image = await myDataSource.getRepository(Image).findOneBy(id);
+		if (!image) {
+			return { sucess: false, message: "Картинка не найдена" };
 		}
 		//delete post
-		const results = await myDataSource.getRepository(Post).delete(id);
+		console.log(image.name);
+		const fileName = image.name;
+		const filePath = path.resolve("public/images", fileName);
+		fs.unlink(filePath, (error) => {
+			if (error) {
+				return error;
+			}
+		});
+		const results = await myDataSource.getRepository(Image).delete(id);
 		return results;
-	} */
+	}
 }
 
 export default ImageService;

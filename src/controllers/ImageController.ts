@@ -13,9 +13,10 @@ class ImageController {
 	async getAllImgaes(req: Request, res: Response) {
 		try {
 			const result = await service.getAllImages();
-			return { sucess: true, message: result };
+			console.log(result);
+			res.json(result);
 		} catch (e) {
-			res.json({ sucess: true, message: e.message });
+			res.json({ sucess: false, message: e.message });
 		}
 	}
 
@@ -31,18 +32,9 @@ class ImageController {
 	async deleteImage(req: Request, res: Response) {
 		try {
 			//find post with same id
-			const post = await myDataSource.getRepository(Image).findOneBy({
-				id: +req.params.id,
-			});
-			if (!post) {
-				return res
-					.status(404)
-					.json({ sucess: false, message: "Пост не найден" });
-			}
-			const results = await myDataSource
-				.getRepository(Image)
-				.delete(req.params.id);
-			return res.send({ sucess: true, message: results });
+			const id = +req.params.id;
+			const result = await service.deleteImage({ id: id });
+			res.json(result);
 		} catch (e) {
 			res.json({ sucess: true, message: e.message });
 		}
