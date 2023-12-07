@@ -1,12 +1,12 @@
 import { Router } from "express";
 import DocController from "../controllers/DocController";
 
-const pdfsRouter = Router();
+const docsRouter = Router();
 
 const controller = new DocController();
 
-pdfsRouter.get("/", controller.getAllPdfs);
-pdfsRouter.post("/", controller.uploadPdf);
-pdfsRouter.delete("/:id", controller.deletePdf);
+docsRouter.get("/", controller.getAllPdfs);
+docsRouter.post("/", controller.uploadPdf);
+docsRouter.delete("/:id", controller.deletePdf);
 
-export default pdfsRouter;
+export default docsRouter;

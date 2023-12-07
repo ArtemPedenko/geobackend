@@ -7,7 +7,7 @@ interface CustomRequest extends Request {
 	files?: any;
 }
 
-class PdfController {
+class DocController {
 	async getAllPdfs(req: Request, res: Response) {
 		try {
 			const result = await service.getAllDocs();
@@ -37,4 +37,4 @@ class PdfController {
 		}
 	}
 }
-export default PdfController;
+export default DocController;
