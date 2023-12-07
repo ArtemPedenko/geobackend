@@ -4,7 +4,7 @@ import "dotenv/config";
 import postsRouter from "./routes/postsRouter";
 import imagesRouter from "./routes/imagesRouter";
 import fileUpload from "express-fileupload";
-import pdfsRouter from "./routes/pdfsRouter";
+import pdfsRouter from "./routes/docsRouter";
 
 myDataSource
 	.initialize()
@@ -23,7 +23,7 @@ app.use(express.static("public"));
 
 app.use("/api/posts", postsRouter);
 app.use("/api/images", imagesRouter);
-app.use("/api/pdfs", pdfsRouter);
+app.use("/api/docs", pdfsRouter);
 
 const PORT = process.env.PORT;
 

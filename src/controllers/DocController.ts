@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import PdfService from "../services/PdfService";
+import DocService from "../services/DocService";
 
-const service = new PdfService();
+const service = new DocService();
 
 interface CustomRequest extends Request {
 	files?: any;
@@ -10,7 +10,7 @@ interface CustomRequest extends Request {
 class PdfController {
 	async getAllPdfs(req: Request, res: Response) {
 		try {
-			const result = await service.getAllPdfs();
+			const result = await service.getAllDocs();
 			res.json(result);
 		} catch (e) {
 			res.json({ sucess: false, message: e.message });
@@ -19,7 +19,7 @@ class PdfController {
 
 	async uploadPdf(req: CustomRequest, res: Response) {
 		try {
-			const result = await service.uploadPdf(req.files.file);
+			const result = await service.uploadDoc(req.files.file);
 			return res.send({ sucess: true, message: result });
 		} catch (e) {
 			res.json({ sucess: true, message: e.message });
@@ -30,7 +30,7 @@ class PdfController {
 		try {
 			//find post with same id
 			const id = +req.params.id;
-			const result = await service.deletePdf({ id: id });
+			const result = await service.deleteDoc({ id: id });
 			res.json(result);
 		} catch (e) {
 			res.json({ sucess: true, message: e.message });

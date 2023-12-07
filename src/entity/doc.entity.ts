@@ -1,11 +1,11 @@
 import { Entity, Column, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
-class Pdf {
+class Doc {
 	@PrimaryGeneratedColumn()
 	id: number;
 
 	@Column()
 	name: string;
 }
-export default Pdf;
+export default Doc;

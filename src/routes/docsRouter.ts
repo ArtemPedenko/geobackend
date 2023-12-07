@@ -1,9 +1,9 @@
 import { Router } from "express";
-import PdfController from "../controllers/PdfController";
+import DocController from "../controllers/DocController";
 
 const pdfsRouter = Router();
 
-const controller = new PdfController();
+const controller = new DocController();
 
 pdfsRouter.get("/", controller.getAllPdfs);
 pdfsRouter.post("/", controller.uploadPdf);

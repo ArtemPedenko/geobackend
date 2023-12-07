@@ -28,11 +28,15 @@ class PostService {
 		if (!post) {
 			return { sucess: false, message: "Пост не найден" };
 		}
-		//merge it with request
-		myDataSource.getRepository(Post).merge(post, payload);
-		//save changed post
-		const results = await myDataSource.getRepository(Post).save(post);
-		return results;
+		//merge it with request if id dont change
+		if (post.id === id) {
+			myDataSource.getRepository(Post).merge(post, payload);
+			//save changed post
+			const results = await myDataSource.getRepository(Post).save(post);
+			return results;
+		} else {
+			return "нельзя менять id";
+		}
 	}
 
 	async deletePost(id: FindOptionsWhere<Post>) {

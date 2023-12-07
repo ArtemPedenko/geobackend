@@ -25,12 +25,12 @@ class ImageService {
 	}
 
 	async deleteImage(id: FindOptionsWhere<Image>) {
-		//find post with same id
+		//find image with same id
 		const image = await myDataSource.getRepository(Image).findOneBy(id);
 		if (!image) {
 			return { sucess: false, message: "Картинка не найдена" };
 		}
-		//delete post
+		//delete image
 		const fileName = image.name;
 		const filePath = path.resolve("public/images", fileName);
 		fs.unlink(filePath, (error) => {
