@@ -9,6 +9,9 @@ class User {
 	login: string;
 
 	@Column()
+	role: string;
+
+	@Column()
 	password: string;
 
 	@Column()

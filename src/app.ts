@@ -5,6 +5,7 @@ import postsRouter from "./routes/postsRouter";
 import imagesRouter from "./routes/imagesRouter";
 import fileUpload from "express-fileupload";
 import docsRouter from "./routes/docsRouter";
+import usersRouter from "./routes/usersRouter";
 
 myDataSource
 	.initialize()
@@ -24,6 +25,7 @@ app.use(express.static("public"));
 app.use("/api/posts", postsRouter);
 app.use("/api/images", imagesRouter);
 app.use("/api/docs", docsRouter);
+app.use("/api/login", usersRouter);
 
 const PORT = process.env.PORT;
 
