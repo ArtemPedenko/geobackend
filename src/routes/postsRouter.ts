@@ -1,11 +1,12 @@
 import { Router } from "express";
 import PostController from "../controllers/PostController";
+import { authenticate } from "../middlewares/authMiddleware";
 
 const postsRouter = Router();
 
 const controller = new PostController();
 
-postsRouter.get("/", controller.getAllPosts);
+postsRouter.get("/", authenticate, controller.getAllPosts);
 postsRouter.get("/:id", controller.getOnePost);
 postsRouter.post("/", controller.createPost);
 postsRouter.put("/:id", controller.changePost);
