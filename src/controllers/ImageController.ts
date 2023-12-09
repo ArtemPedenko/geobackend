@@ -19,7 +19,8 @@ class ImageController {
 
   async upload(req: CustomRequest, res: Response) {
     try {
-      const result = await service.upload(req.files.file);
+      const userLogin: string = req.headers.user as string;
+      const result = await service.upload(req.files.file, userLogin);
       return res.send(result);
     } catch (e) {
       res.json(e.message);
