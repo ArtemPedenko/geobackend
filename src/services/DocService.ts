@@ -2,7 +2,7 @@ import { FindOptionsWhere } from "typeorm/find-options/FindOptionsWhere";
 import { DeepPartial } from "typeorm/common/DeepPartial";
 import myDataSource from "../app-data-source";
 import Doc from "../entity/doc.entity";
-import { v4 as uuidv4 } from "uuid";
+import { v4 as uuidv4} from "uuid";
 import * as path from "path";
 import * as fs from "fs";
 
@@ -30,7 +30,7 @@ class DocService {
 		//find doc with same id
 		const pdf = await myDataSource.getRepository(Doc).findOneBy(id);
 		if (!pdf) {
-			return { sucess: false, message: "Документ не найден" };
+			return { success: false, message: "Документ не найден" };
 		}
 		//delete doc
 		const fileName = pdf.name;
