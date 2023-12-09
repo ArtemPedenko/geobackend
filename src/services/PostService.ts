@@ -4,48 +4,40 @@ import Post from "../entity/post.entity";
 import { DeepPartial } from "typeorm";
 
 class PostService {
-  async getAllPosts(): Promise<Post[]> {
-    const result = await myDataSource.getRepository(Post).find();
-    return result;
+  async getAll() {
+    return await myDataSource.getRepository(Post).find();
   }
 
-  async getOnePost(id: number): Promise<Post> {
-    const results = await myDataSource.getRepository(Post).findOneBy({
+  async getOne(id: number) {
+    return await myDataSource.getRepository(Post).findOneBy({
       id: id,
     });
-    return results;
   }
 
-  async createPost(payload: Post): Promise<Post> {
+  async create(payload: Post): Promise<Post> {
     const post = myDataSource.getRepository(Post).create(payload);
     return await myDataSource.getRepository(Post).save(post);
   }
 
-  async changePost(id: FindOptionsWhere<Post>, payload: DeepPartial<Post>) {
-    //find post with same id
+  async change(id: FindOptionsWhere<Post>, payload: DeepPartial<Post>) {
     const post = await myDataSource.getRepository(Post).findOneBy(id);
     if (!post) {
-      return { success: false, message: "Пост не найден" };
+      throw new Error("Пост не найден");
     }
-    if (post.id === id) {
+    if (post.id === id.id) {
       myDataSource.getRepository(Post).merge(post, payload);
-      //save changed post
-      const results = await myDataSource.getRepository(Post).save(post);
-      return results;
+      return await myDataSource.getRepository(Post).save(post);
     } else {
-      return "нельзя менять id";
+      throw new Error("нельзя менять id");
     }
   }
 
-  async deletePost(id: FindOptionsWhere<Post>) {
-    //find post with same id
+  async delete(id: FindOptionsWhere<Post>) {
     const post = await myDataSource.getRepository(Post).findOneBy(id);
     if (!post) {
-      return { sucess: false, message: "Пост не найден" };
+      throw new Error("Пост не найден");
     }
-    //delete post
-    const results = await myDataSource.getRepository(Post).delete(id);
-    return results;
+    return await myDataSource.getRepository(Post).delete(id);
   }
 }
 

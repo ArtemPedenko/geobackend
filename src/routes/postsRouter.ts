@@ -6,11 +6,12 @@ const postsRouter = Router();
 
 const controller = new PostController();
 //pattern comander
-postsRouter.get("/", authenticate, controller.getAllPosts);
-postsRouter.get("/:id", controller.getOnePost);
-postsRouter.post("/", controller.createPost);
-postsRouter.put("/:id", controller.changePost);
-postsRouter.delete("/:id", controller.deletePost);
+//postsRouter.get("/", authenticate, controller.getAllPosts);
+postsRouter.get("/", controller.getAll);
+postsRouter.get("/:id", controller.getOne);
+postsRouter.post("/", controller.create);
+postsRouter.put("/:id", controller.change);
+postsRouter.delete("/:id", controller.delete);
 
 export default postsRouter;
 

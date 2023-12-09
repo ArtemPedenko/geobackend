@@ -1,57 +1,54 @@
-import myDataSource from "../app-data-source";
-import Post from "../entity/post.entity";
 import { Request, Response } from "express";
 import PostService from "../services/PostService";
 
 const service = new PostService();
 
 class PostController {
-  async getAllPosts(req: Request, res: Response) {
+  async getAll(req: Request, res: Response) {
     try {
-      const result = await service.getAllPosts();
+      const result = await service.getAll();
       return res.json(result);
     } catch (e) {
-      res.json({ sucess: true, message: e.message });
+      res.json(e.message);
     }
   }
 
-  async getOnePost(req: Request, res: Response) {
+  async getOne(req: Request, res: Response) {
     try {
-      const results = await service.getOnePost(+req.params.id);
+      const results = await service.getOne(+req.params.id);
       return res.send(results);
     } catch (e) {
-      res.json({ sucess: true, message: e.message });
+      res.json(e.message);
     }
   }
 
-  async createPost(req: Request, res: Response) {
+  async create(req: Request, res: Response) {
     try {
-      const post = await myDataSource.getRepository(Post).create(req.body);
-      const results = await myDataSource.getRepository(Post).save(post);
-      return res.send({ sucess: true, message: results });
+      const results = await service.create(req.body);
+      return res.send(results);
     } catch (e) {
-      res.json({ sucess: true, message: e.message });
+      res.json(e.message);
     }
   }
 
-  async changePost(req: Request, res: Response) {
+  async change(req: Request, res: Response) {
     try {
       const id = +req.params.id;
-      const results = await service.changePost({ id: id }, req.body);
-      res.json({ sucess: true, message: results });
+      const results = await service.change({ id: id }, req.body);
+      res.json(results);
     } catch (e) {
-      res.json({ sucess: true, message: e.message });
+      res.json(e.message);
     }
   }
 
-  async deletePost(req: Request, res: Response) {
+  async delete(req: Request, res: Response) {
     try {
       //find post with same id
       const id = +req.params.id;
-      const result = await service.deletePost({ id: id });
+      const result = await service.delete({ id: id });
       res.json(result);
     } catch (e) {
-      res.json({ sucess: true, message: e.message });
+      res.json(e.message);
     }
   }
 }
