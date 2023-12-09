@@ -27,7 +27,7 @@ class DocService {
   async delete(id: FindOptionsWhere<Doc>) {
     const pdf = await myDataSource.getRepository(Doc).findOneBy(id);
     if (!pdf) {
-      return "Документ не найден";
+      throw new Error("Документ не найден");
     }
     const fileName = pdf.name;
     const filePath = path.resolve("public/docs", fileName);

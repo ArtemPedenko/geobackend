@@ -5,8 +5,8 @@ const docsRouter = Router();
 
 const controller = new DocController();
 
-docsRouter.get("/", controller.getAllPdfs);
-docsRouter.post("/", controller.uploadPdf);
-docsRouter.delete("/:id", controller.deletePdf);
+docsRouter.get("/", controller.getAll);
+docsRouter.post("/", controller.upload);
+docsRouter.delete("/:id", controller.delete);
 
 export default docsRouter;

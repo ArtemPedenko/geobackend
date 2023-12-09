@@ -8,32 +8,31 @@ interface CustomRequest extends Request {
 }
 
 class DocController {
-  async getAllPdfs(req: Request, res: Response) {
+  async getAll(req: Request, res: Response) {
     try {
       const result = await service.getAll();
       res.json(result);
     } catch (e) {
-      res.json({ sucess: false, message: e.message });
+      res.json(e.message);
     }
   }
 
-  async uploadPdf(req: CustomRequest, res: Response) {
+  async upload(req: CustomRequest, res: Response) {
     try {
       const result = await service.upload(req.files.file);
-      return res.send({ sucess: true, message: result });
+      return res.send(result);
     } catch (e) {
-      res.json({ sucess: true, message: e.message });
+      res.json(e.message);
     }
   }
 
-  async deletePdf(req: Request, res: Response) {
+  async delete(req: Request, res: Response) {
     try {
-      //find post with same id
       const id = +req.params.id;
       const result = await service.delete({ id: id });
-      res.json(result);
+      res.send(result);
     } catch (e) {
-      res.json({ sucess: true, message: e.message });
+      res.status(404).json(e.message);
     }
   }
 }
