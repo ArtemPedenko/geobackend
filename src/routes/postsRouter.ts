@@ -5,7 +5,7 @@ import { authenticate } from "../middlewares/authMiddleware";
 const postsRouter = Router();
 
 const controller = new PostController();
-
+//pattern comander
 postsRouter.get("/", authenticate, controller.getAllPosts);
 postsRouter.get("/:id", controller.getOnePost);
 postsRouter.post("/", controller.createPost);

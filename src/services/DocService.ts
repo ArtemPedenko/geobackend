@@ -7,12 +7,11 @@ import * as path from "path";
 import * as fs from "fs";
 
 class DocService {
-  async getAllDocs() {
-    const result = await myDataSource.getRepository(Doc).find();
-    return result;
+  async getAll() {
+    return await myDataSource.getRepository(Doc).find();
   }
 
-  async uploadDoc(file: { mv: (arg0: string) => void; name: string }) {
+  async upload(file: { mv: (arg0: string) => void; name: string }) {
     const nameArray = file.name.split(".");
     const extension = nameArray[nameArray.length - 1];
     const fileName = uuidv4() + "." + extension;
@@ -22,17 +21,14 @@ class DocService {
       name: fileName,
     };
     const image = myDataSource.getRepository(Doc).create(pdfObject);
-    const results = await myDataSource.getRepository(Doc).save(image);
-    return results;
+    return await myDataSource.getRepository(Doc).save(image);
   }
 
-  async deleteDoc(id: FindOptionsWhere<Doc>) {
-    //find doc with same id
+  async delete(id: FindOptionsWhere<Doc>) {
     const pdf = await myDataSource.getRepository(Doc).findOneBy(id);
     if (!pdf) {
-      return { success: false, message: "Документ не найден" };
+      return "Документ не найден";
     }
-    //delete doc
     const fileName = pdf.name;
     const filePath = path.resolve("public/docs", fileName);
     fs.unlink(filePath, (error) => {
@@ -40,8 +36,7 @@ class DocService {
         return error;
       }
     });
-    const results = await myDataSource.getRepository(Doc).delete(id);
-    return results;
+    return await myDataSource.getRepository(Doc).delete(id);
   }
 }
 

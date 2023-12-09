@@ -4,37 +4,37 @@ import ImageService from "../services/ImageService";
 const service = new ImageService();
 
 interface CustomRequest extends Request {
-	files?: any;
+  files?: any;
 }
 
 class ImageController {
-	async getAllImgaes(req: Request, res: Response) {
-		try {
-			const result = await service.getAllImages();
-			res.json(result);
-		} catch (e) {
-			res.json({ sucess: false, message: e.message });
-		}
-	}
+  async getAll(req: Request, res: Response) {
+    try {
+      const result = await service.getAll();
+      res.json(result);
+    } catch (e) {
+      res.json(e.message);
+    }
+  }
 
-	async uploadImage(req: CustomRequest, res: Response) {
-		try {
-			const result = await service.uploadImage(req.files.file);
-			return res.send({ sucess: true, message: result });
-		} catch (e) {
-			res.json({ sucess: true, message: e.message });
-		}
-	}
+  async upload(req: CustomRequest, res: Response) {
+    try {
+      const result = await service.upload(req.files.file);
+      return res.send(result);
+    } catch (e) {
+      res.json(e.message);
+    }
+  }
 
-	async deleteImage(req: Request, res: Response) {
-		try {
-			//find post with same id
-			const id = +req.params.id;
-			const result = await service.deleteImage({ id: id });
-			res.json(result);
-		} catch (e) {
-			res.json({ sucess: true, message: e.message });
-		}
-	}
+  async delete(req: Request, res: Response) {
+    try {
+      const id = +req.params.id;
+      const result = await service.delete({ id: id });
+      res.json(result);
+    } catch (e) {
+      res.json(e.message);
+    }
+  }
 }
+
 export default ImageController;

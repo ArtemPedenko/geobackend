@@ -7,40 +7,35 @@ import * as fs from "fs";
 import { DeepPartial } from "typeorm/common/DeepPartial";
 
 class ImageService {
-	async getAllImages() {
-		const result = await myDataSource.getRepository(Image).find();
-		return result;
-	}
+  async getAll() {
+    return await myDataSource.getRepository(Image).find();
+  }
 
-	async uploadImage(file: { mv: (arg0: string) => void }) {
-		const fileName = uuidv4() + ".png";
-		const filePath = path.resolve("public/images", fileName);
-		file.mv(filePath);
-		const imageObject: DeepPartial<Image> = {
-			name: fileName,
-		};
-		const image = myDataSource.getRepository(Image).create(imageObject);
-		const results = await myDataSource.getRepository(Image).save(image);
-		return results;
-	}
+  async upload(file: { mv: (arg0: string) => void }) {
+    const fileName = uuidv4() + ".png";
+    const filePath = path.resolve("public/images", fileName);
+    file.mv(filePath);
+    const imageObject: DeepPartial<Image> = {
+      name: fileName,
+    };
+    const image = myDataSource.getRepository(Image).create(imageObject);
+    return await myDataSource.getRepository(Image).save(image);
+  }
 
-	async deleteImage(id: FindOptionsWhere<Image>) {
-		//find image with same id
-		const image = await myDataSource.getRepository(Image).findOneBy(id);
-		if (!image) {
-			return { sucess: false, message: "Картинка не найдена" };
-		}
-		//delete image
-		const fileName = image.name;
-		const filePath = path.resolve("public/images", fileName);
-		fs.unlink(filePath, (error) => {
-			if (error) {
-				return error;
-			}
-		});
-		const results = await myDataSource.getRepository(Image).delete(id);
-		return results;
-	}
+  async delete(id: FindOptionsWhere<Image>) {
+    const image = await myDataSource.getRepository(Image).findOneBy(id);
+    if (!image) {
+      throw new Error("Картинка не найдена");
+    }
+    const fileName = image.name;
+    const filePath = path.resolve("public/images", fileName);
+    fs.unlink(filePath, (error) => {
+      if (error) {
+        return error;
+      }
+    });
+    return await myDataSource.getRepository(Image).delete(id);
+  }
 }
 
 export default ImageService;
