@@ -2,6 +2,7 @@ import { FindOptionsWhere } from "typeorm/find-options/FindOptionsWhere";
 import myDataSource from "../app-data-source";
 import Post from "../entity/post.entity";
 import { DeepPartial } from "typeorm";
+import User from "../entity/user.entity";
 
 class PostService {
   async getAll() {
@@ -14,9 +15,14 @@ class PostService {
     });
   }
 
-  async create(payload: Post): Promise<Post> {
+  async create(payload: Post, userLogin: string) {
+    const user = await myDataSource.getRepository(User).findOneBy({
+      login: userLogin,
+    });
     const post = myDataSource.getRepository(Post).create(payload);
-    return await myDataSource.getRepository(Post).save(post);
+    post.user = user;
+    await myDataSource.getRepository(Post).save(post);
+    return { success: true };
   }
 
   async change(id: FindOptionsWhere<Post>, payload: DeepPartial<Post>) {

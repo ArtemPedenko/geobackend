@@ -24,7 +24,8 @@ class PostController {
 
   async create(req: Request, res: Response) {
     try {
-      const results = await service.create(req.body);
+      const userLogin: string = req.headers.user as string;
+      const results = await service.create(req.body, userLogin);
       return res.send(results);
     } catch (e) {
       res.json(e.message);

@@ -1,11 +1,16 @@
-import { Entity, Column, PrimaryGeneratedColumn } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from "typeorm";
+import User from "./user.entity";
 
 @Entity()
 class Doc {
-	@PrimaryGeneratedColumn()
-	id: number;
+  @PrimaryGeneratedColumn()
+  id: number;
 
-	@Column()
-	name: string;
+  @Column()
+  name: string;
+
+  @ManyToOne(() => User, (user) => user.images)
+  user: User;
 }
+
 export default Doc;

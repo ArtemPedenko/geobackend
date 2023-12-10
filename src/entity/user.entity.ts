@@ -1,5 +1,7 @@
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from "typeorm";
 import Image from "./images.entity";
+import Doc from "./doc.entity";
+import Post from "./post.entity";
 
 @Entity()
 class User {
@@ -18,8 +20,14 @@ class User {
   @Column()
   refreshToken: string;
 
-  @OneToMany(() => Image, (photo) => photo.user)
+  @OneToMany(() => Image, (image) => image.user)
   images: Image[];
+
+  @OneToMany(() => Doc, (doc) => doc.user)
+  docs: Doc[];
+
+  @OneToMany(() => Post, (post) => post.user)
+  posts: Doc[];
 }
 
 export default User;
