@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import ApiError from "../exceptions/apiError";
+import logger from "../logger/logger";
 
 export const errorMiddleware = (
   err: Error,
@@ -7,6 +8,7 @@ export const errorMiddleware = (
   res: Response,
   next: NextFunction,
 ) => {
+  logger.error(err);
   if (err instanceof ApiError) {
     return res
       .status(err.status)
