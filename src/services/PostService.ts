@@ -3,6 +3,7 @@ import myDataSource from "../app-data-source";
 import Post from "../entity/post.entity";
 import { DeepPartial } from "typeorm";
 import User from "../entity/user.entity";
+import ApiError from "../exceptions/apiError";
 
 class PostService {
   async getAll() {
@@ -10,9 +11,13 @@ class PostService {
   }
 
   async getOne(id: number) {
-    return await myDataSource.getRepository(Post).findOneBy({
+    const post = await myDataSource.getRepository(Post).findOneBy({
       id: id,
     });
+    if (!post) {
+      throw ApiError.BadRequest(`No post with id = ${id}`);
+    }
+    return;
   }
 
   async create(payload: Post, userLogin: string) {
@@ -28,13 +33,13 @@ class PostService {
   async change(id: FindOptionsWhere<Post>, payload: DeepPartial<Post>) {
     const post = await myDataSource.getRepository(Post).findOneBy(id);
     if (!post) {
-      throw new Error("Пост не найден");
+      throw ApiError.BadRequest(`No post with id = ${id}`);
     }
     if (post.id === id.id) {
       myDataSource.getRepository(Post).merge(post, payload);
       return await myDataSource.getRepository(Post).save(post);
     } else {
-      throw new Error("нельзя менять id");
+      throw ApiError.BadRequest(`You cant change id`);
     }
   }
 

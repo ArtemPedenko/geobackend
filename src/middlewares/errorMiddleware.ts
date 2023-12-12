@@ -1,19 +1,19 @@
-import { Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
 import ApiError from "../exceptions/apiError";
 
 export const errorMiddleware = (
-  err,
+  err: Error,
   req: Request,
   res: Response,
-  next: () => void,
+  next: NextFunction,
 ) => {
-  console.error(typeof err);
   if (err instanceof ApiError) {
-    console.log("here");
     return res
       .status(err.status)
-      .json({ message: err.message, errors: err.errors });
+      .json({ error: err.message, errors: err.errors });
   }
-  console.log("there");
-  return res.status(500).json({ message: "Непредвиденная ошибка" });
+
+  // Если это не ApiError, обрабатываем как обычную ошибку сервера (например, 500 Internal Server Error)
+  console.error(err);
+  return res.status(500).json({ error: "Internal Server Error" });
 };

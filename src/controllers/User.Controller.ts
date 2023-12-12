@@ -1,10 +1,10 @@
-import { Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
 import UserService from "../services/UserService";
 
 const service = new UserService();
 
 class UserController {
-  async login(req: Request, res: Response, next: (e) => void) {
+  async login(req: Request, res: Response, next: NextFunction) {
     const { login, password } = req.body;
     try {
       const userData = await service.login(login, password);
@@ -15,7 +15,6 @@ class UserController {
       return res.json(userData);
     } catch (e) {
       next(e);
-      //return res.json({ sucess: false, message: e.message });
     }
   }
 }

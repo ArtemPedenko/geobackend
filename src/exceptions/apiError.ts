@@ -1,11 +1,13 @@
-class ApiError extends Error {
+export default class ApiError extends Error {
   status: number;
-  errors: any[];
+  message: string;
+  errors?: any[];
 
-  constructor(status: number, message: string, errors = []) {
+  constructor(status: number, message: string, errors: any[] = []) {
     super(message);
     this.status = status;
     this.errors = errors;
+    Object.setPrototypeOf(this, ApiError.prototype);
   }
 
   static UnauthorizedError() {
@@ -13,9 +15,6 @@ class ApiError extends Error {
   }
 
   static BadRequest(message: string, errors: any[] = []) {
-    console.log("bad req");
     return new ApiError(400, message, errors);
   }
 }
-
-export default ApiError;

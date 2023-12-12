@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
 import PostService from "../services/PostService";
 
 const service = new PostService();
@@ -13,12 +13,12 @@ class PostController {
     }
   }
 
-  async getOne(req: Request, res: Response) {
+  async getOne(req: Request, res: Response, next: NextFunction) {
     try {
       const results = await service.getOne(+req.params.id);
       return res.send(results);
     } catch (e) {
-      res.json(e.message);
+      next(e);
     }
   }
 

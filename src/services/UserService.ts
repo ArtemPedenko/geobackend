@@ -12,7 +12,6 @@ class UserService {
       login: login,
     });
     if (!user) {
-      console.log("No user");
       throw ApiError.BadRequest("No user with same login");
     }
     const isPasswordEqual = await bcrypt.compare(password, user.password);
