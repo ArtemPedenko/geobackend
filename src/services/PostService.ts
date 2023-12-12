@@ -46,7 +46,7 @@ class PostService {
   async delete(id: FindOptionsWhere<Post>) {
     const post = await myDataSource.getRepository(Post).findOneBy(id);
     if (!post) {
-      throw new Error("Пост не найден");
+      throw ApiError.BadRequest(`No post with id = ${id}`);
     }
     return await myDataSource.getRepository(Post).delete(id);
   }

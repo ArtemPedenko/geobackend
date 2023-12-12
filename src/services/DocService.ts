@@ -6,6 +6,7 @@ import { v4 as uuidv4 } from "uuid";
 import * as path from "path";
 import * as fs from "fs";
 import User from "../entity/user.entity";
+import ApiError from "../exceptions/apiError";
 
 class DocService {
   async getAll() {
@@ -21,13 +22,13 @@ class DocService {
     const fileName = uuidv4() + "." + extension;
     const filePath = path.resolve("public/docs", fileName);
     file.mv(filePath);
-    const pdfObject: DeepPartial<Doc> = {
+    const docObject: DeepPartial<Doc> = {
       name: fileName,
     };
     const user = await myDataSource.getRepository(User).findOneBy({
       login: userLogin,
     });
-    const doc = myDataSource.getRepository(Doc).create(pdfObject);
+    const doc = myDataSource.getRepository(Doc).create(docObject);
     doc.user = user;
     await myDataSource.getRepository(Doc).save(doc);
     return { name: doc.name };
@@ -36,7 +37,7 @@ class DocService {
   async delete(id: FindOptionsWhere<Doc>) {
     const pdf = await myDataSource.getRepository(Doc).findOneBy(id);
     if (!pdf) {
-      throw new Error("Документ не найден");
+      throw ApiError.BadRequest(`No document with id = ${id}`);
     }
     const fileName = pdf.name;
     const filePath = path.resolve("public/docs", fileName);

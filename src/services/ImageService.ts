@@ -5,6 +5,7 @@ import { v4 as uuidv4 } from "uuid";
 import * as path from "path";
 import * as fs from "fs";
 import User from "../entity/user.entity";
+import ApiError from "../exceptions/apiError";
 
 class ImageService {
   async getAll() {
@@ -27,7 +28,7 @@ class ImageService {
   async delete(id: FindOptionsWhere<Image>) {
     const image = await myDataSource.getRepository(Image).findOneBy(id);
     if (!image) {
-      throw new Error("Картинка не найдена");
+      throw ApiError.BadRequest(`No document with id = ${id}`);
     }
     const fileName = image.name;
     const filePath = path.resolve("public/images", fileName);

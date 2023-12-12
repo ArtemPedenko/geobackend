@@ -4,12 +4,12 @@ import PostService from "../services/PostService";
 const service = new PostService();
 
 class PostController {
-  async getAll(req: Request, res: Response) {
+  async getAll(req: Request, res: Response, next: NextFunction) {
     try {
       const result = await service.getAll();
       return res.json(result);
     } catch (e) {
-      res.json(e.message);
+      next(e);
     }
   }
 
@@ -22,34 +22,34 @@ class PostController {
     }
   }
 
-  async create(req: Request, res: Response) {
+  async create(req: Request, res: Response, next: NextFunction) {
     try {
       const userLogin: string = req.headers.user as string;
       const results = await service.create(req.body, userLogin);
       return res.send(results);
     } catch (e) {
-      res.json(e.message);
+      next(e);
     }
   }
 
-  async change(req: Request, res: Response) {
+  async change(req: Request, res: Response, next: NextFunction) {
     try {
       const id = +req.params.id;
       const results = await service.change({ id: id }, req.body);
       res.json(results);
     } catch (e) {
-      res.json(e.message);
+      next(e);
     }
   }
 
-  async delete(req: Request, res: Response) {
+  async delete(req: Request, res: Response, next: NextFunction) {
     try {
       //find post with same id
       const id = +req.params.id;
       const result = await service.delete({ id: id });
       res.json(result);
     } catch (e) {
-      res.json(e.message);
+      next(e);
     }
   }
 }
