@@ -2,28 +2,27 @@ import * as bcrypt from "bcrypt";
 import TokenService from "./TokenService";
 import myDataSource from "../app-data-source";
 import User from "../entity/user.entity";
+import ApiError from "../exceptions/apiError";
 
 const tokenService = new TokenService();
 
 class UserService {
   async login(login: string, password: string) {
-    //получаем данные юзера по логину
     const user = await myDataSource.getRepository(User).findOneBy({
       login: login,
     });
     if (!user) {
-      throw new Error("no user with same login");
+      console.log("No user");
+      throw ApiError.BadRequest("No user with same login");
     }
     const isPasswordEqual = await bcrypt.compare(password, user.password);
     if (!isPasswordEqual) {
-      throw new Error("wrong password");
+      throw ApiError.BadRequest("wrong password");
     }
-    //генерируем новые токены
     const tokens = tokenService.generateToken({
       login: user.login,
       role: user.login,
     });
-    //записываем в бд новый рефреш токен
     myDataSource
       .getRepository(User)
       .merge(user, { refreshToken: tokens.refreshToken });

@@ -6,15 +6,16 @@ import imagesRouter from "./routes/imagesRouter";
 import fileUpload from "express-fileupload";
 import docsRouter from "./routes/docsRouter";
 import usersRouter from "./routes/usersRouter";
+import { errorMiddleware } from "./middlewares/errorMiddleware";
 
 myDataSource
-	.initialize()
-	.then(() => {
-		console.log("Data Source has been initialized!");
-	})
-	.catch((err) => {
-		console.error("Error during Data Source initialization:", err);
-	});
+  .initialize()
+  .then(() => {
+    console.log("Data Source has been initialized!");
+  })
+  .catch((err) => {
+    console.error("Error during Data Source initialization:", err);
+  });
 
 const app = express();
 
@@ -26,15 +27,16 @@ app.use("/api/posts", postsRouter);
 app.use("/api/images", imagesRouter);
 app.use("/api/docs", docsRouter);
 app.use("/api/login", usersRouter);
+app.use(errorMiddleware);
 
 const PORT = process.env.PORT;
 
 async function startApp() {
-	try {
-		app.listen(PORT, () => console.log("server is working", PORT));
-	} catch (e) {
-		console.log(e.message);
-	}
+  try {
+    app.listen(PORT, () => console.log("server is working", PORT));
+  } catch (e) {
+    console.log(e.message);
+  }
 }
 
 startApp();
