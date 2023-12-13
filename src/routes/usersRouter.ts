@@ -5,6 +5,7 @@ const usersRouter = Router();
 
 const controller = new UserController();
 
-usersRouter.post("/", controller.login);
+usersRouter.post("/login", controller.login);
+usersRouter.post("/refresh-token", controller.newAccessToken);
 
 export default usersRouter;

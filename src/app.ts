@@ -26,7 +26,7 @@ app.use(express.static("public"));
 app.use("/api/posts", postsRouter);
 app.use("/api/images", imagesRouter);
 app.use("/api/docs", docsRouter);
-app.use("/api/login", usersRouter);
+app.use("/api/user", usersRouter);
 app.use(errorMiddleware);
 
 const PORT = process.env.PORT;
