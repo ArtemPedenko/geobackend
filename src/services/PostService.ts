@@ -24,6 +24,9 @@ class PostService {
     const user = await myDataSource.getRepository(User).findOneBy({
       login: userLogin,
     });
+    if (!user) {
+      throw ApiError.BadRequest(`No user with login = ${userLogin}`);
+    }
     const post = myDataSource.getRepository(Post).create(payload);
     post.user = user;
     await myDataSource.getRepository(Post).save(post);
