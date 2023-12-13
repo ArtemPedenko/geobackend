@@ -1,4 +1,4 @@
-import express, { NextFunction, Request, Response } from "express";
+import express from "express";
 import myDataSource from "./app-data-source";
 import "dotenv/config";
 import postsRouter from "./routes/postsRouter";
@@ -7,7 +7,6 @@ import fileUpload from "express-fileupload";
 import docsRouter from "./routes/docsRouter";
 import usersRouter from "./routes/usersRouter";
 import { errorMiddleware } from "./middlewares/errorMiddleware";
-import handler from "./middlewares/handler";
 
 myDataSource
   .initialize()
