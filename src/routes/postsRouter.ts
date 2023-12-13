@@ -1,17 +1,17 @@
 import { Router } from "express";
 import PostController from "../controllers/PostController";
 import { authenticate } from "../middlewares/authMiddleware";
+import handler from "../middlewares/handler";
 
 const postsRouter = Router();
 
 const controller = new PostController();
-//pattern comander
 //postsRouter.get("/", authenticate, controller.getAllPosts);
-postsRouter.get("/", controller.getAll);
-postsRouter.get("/:id", controller.getOne);
-postsRouter.post("/", controller.create);
-postsRouter.put("/:id", controller.change);
-postsRouter.delete("/:id", controller.delete);
+postsRouter.get("/", handler(controller.getAll));
+postsRouter.get("/:id", handler(controller.getOne));
+postsRouter.post("/", handler(controller.create));
+postsRouter.put("/:id", handler(controller.change));
+postsRouter.delete("/:id", handler(controller.delete));
 
 export default postsRouter;
 

@@ -37,7 +37,7 @@ class DocService {
   async delete(id: FindOptionsWhere<Doc>) {
     const pdf = await myDataSource.getRepository(Doc).findOneBy(id);
     if (!pdf) {
-      throw ApiError.BadRequest(`No document with id = ${id}`);
+      throw ApiError.BadRequest(`No document with id = ${id.id}`);
     }
     const fileName = pdf.name;
     const filePath = path.resolve("public/docs", fileName);

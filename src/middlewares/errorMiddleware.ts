@@ -15,7 +15,5 @@ export const errorMiddleware = (
       .json({ error: err.message, errors: err.errors });
   }
 
-  // Если это не ApiError, обрабатываем как обычную ошибку сервера (например, 500 Internal Server Error)
-  console.error(err);
   return res.status(500).json({ error: "Internal Server Error" });
 };

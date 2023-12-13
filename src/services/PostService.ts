@@ -33,7 +33,7 @@ class PostService {
   async change(id: FindOptionsWhere<Post>, payload: DeepPartial<Post>) {
     const post = await myDataSource.getRepository(Post).findOneBy(id);
     if (!post) {
-      throw ApiError.BadRequest(`No post with id = ${id}`);
+      throw ApiError.BadRequest(`No post with id = ${id.id}`);
     }
     if (post.id === id.id) {
       myDataSource.getRepository(Post).merge(post, payload);
@@ -46,7 +46,7 @@ class PostService {
   async delete(id: FindOptionsWhere<Post>) {
     const post = await myDataSource.getRepository(Post).findOneBy(id);
     if (!post) {
-      throw ApiError.BadRequest(`No post with id = ${id}`);
+      throw ApiError.BadRequest(`No post with id = ${id.id}`);
     }
     return await myDataSource.getRepository(Post).delete(id);
   }

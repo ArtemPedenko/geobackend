@@ -28,7 +28,7 @@ class ImageService {
   async delete(id: FindOptionsWhere<Image>) {
     const image = await myDataSource.getRepository(Image).findOneBy(id);
     if (!image) {
-      throw ApiError.BadRequest(`No document with id = ${id}`);
+      throw ApiError.BadRequest(`No document with id = ${id.id}`);
     }
     const fileName = image.name;
     const filePath = path.resolve("public/images", fileName);
