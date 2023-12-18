@@ -15,6 +15,7 @@ class UserController {
   }
 
   async newAccessToken(req: Request, res: Response) {
+    console.log(req.headers.cookie)
     const refreshToken = req.headers.cookie.replace("refreshToken=", "");
     console.log(refreshToken)
     const login = req.body.login;
