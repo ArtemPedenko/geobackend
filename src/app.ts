@@ -7,6 +7,7 @@ import fileUpload from "express-fileupload";
 import docsRouter from "./routes/docsRouter";
 import usersRouter from "./routes/usersRouter";
 import { errorMiddleware } from "./middlewares/errorMiddleware";
+import cors from "cors";
 
 myDataSource
   .initialize()
@@ -21,7 +22,9 @@ const app = express();
 
 app.use(express.json());
 app.use(fileUpload({}));
+app.use(cors())
 app.use(express.static("public"));
+
 
 app.use("/api/posts", postsRouter);
 app.use("/api/images", imagesRouter);
