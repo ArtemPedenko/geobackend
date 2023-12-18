@@ -24,8 +24,13 @@ app.use(express.json());
 app.use(fileUpload({}));
 app.use(express.static("public"));
 
+const allowedOrigins = [
+  'https://turbo-space-palm-tree-7g5pgwgqxw62w67q-3000.app.github.dev',
+  'http://localhost:3000',
+];
+
 app.use(cors({
-  origin: 'https://turbo-space-palm-tree-7g5pgwgqxw62w67q-3000.app.github.dev', // Replace with your actual domain
+  origin: allowedOrigins,
   methods: 'GET, POST, PUT, DELETE',
   allowedHeaders: 'Content-Type',
   credentials: true,
