@@ -22,8 +22,14 @@ const app = express();
 
 app.use(express.json());
 app.use(fileUpload({}));
-app.use(cors())
 app.use(express.static("public"));
+
+app.use(cors({
+  origin: 'https://turbo-space-palm-tree-7g5pgwgqxw62w67q-3000.app.github.dev', // Replace with your actual domain
+  methods: 'GET, POST, PUT, DELETE',
+  allowedHeaders: 'Content-Type',
+  credentials: true,
+}));
 
 
 app.use("/api/posts", postsRouter);
