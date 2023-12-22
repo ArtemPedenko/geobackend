@@ -36,6 +36,8 @@ class UserService {
     if (!user) {
       throw ApiError.BadRequest("No user with same login");
     }
+    console.log("user.refreshToken", user.refreshToken);
+    console.log("refreshToken", refreshToken);
     if (user.refreshToken === refreshToken) {
       const tokens = tokenService.generateToken({
         login: user.login,
