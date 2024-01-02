@@ -22,6 +22,7 @@ class UserService {
       login: user.login,
       role: user.login,
     });
+    console.log(tokens)
     myDataSource
       .getRepository(User)
       .merge(user, { refreshToken: tokens.refreshToken });
@@ -36,19 +37,20 @@ class UserService {
     if (!user) {
       throw ApiError.BadRequest("No user with same login");
     }
-    console.log("user.refreshToken", user.refreshToken);
-    console.log("refreshToken", refreshToken);
     if (user.refreshToken === refreshToken) {
+      console.log('токены равны')
       const tokens = tokenService.generateToken({
         login: user.login,
         role: user.login,
       });
+      console.log('новый токен', tokens.refreshToken)
       myDataSource
         .getRepository(User)
         .merge(user, { refreshToken: tokens.refreshToken });
       await myDataSource.getRepository(User).save(user);
       return { ...tokens, login: user.login, role: user.role };
     } else {
+      console.log("токены не равны")
       throw ApiError.BadRequest("Token is invalid");
     }
   }

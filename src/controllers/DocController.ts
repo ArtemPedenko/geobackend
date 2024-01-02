@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import DocService from "../services/DocService";
+import {decodeToken} from "../utils/jwt";
 
 const service = new DocService();
 
@@ -14,8 +15,8 @@ class DocController {
   }
 
   async upload(req: CustomRequest, res: Response) {
-    const userLogin: string = req.headers.user as string;
-    const result = await service.upload(req.files.file, userLogin);
+    const decodedToken = decodeToken(req.headers.cookie);
+    const result = await service.upload(req.files.file, decodedToken.login);
     return res.json(result);
   }
 

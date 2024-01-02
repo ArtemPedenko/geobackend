@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import PostService from "../services/PostService";
+import {decodeToken} from "../utils/jwt";
 
 const service = new PostService();
 
@@ -15,8 +16,8 @@ class PostController {
   }
 
   async create(req: Request, res: Response) {
-    const userLogin: string = req.headers.user as string;
-    const results = await service.create(req.body, userLogin);
+    const decodedToken = decodeToken(req.headers.cookie);
+    const results = await service.create(req.body, decodedToken.login);
     return res.send(results);
   }
 

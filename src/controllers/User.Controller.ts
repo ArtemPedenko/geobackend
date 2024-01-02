@@ -18,11 +18,9 @@ class UserController {
   }
 
   async newAccessToken(req: Request, res: Response) {
+    console.log("newAccessToken")
     const login = req.body.login;
-    console.log(req.headers.cookie)
     const refreshToken = req.headers.cookie.replace("refreshToken=", "");
-    console.log(refreshToken);
-
     const userData = await service.newAccessToken(login, refreshToken);
     res.cookie("refreshToken", userData.refreshToken, {
       maxAge: 30 * 24 * 60 * 60 * 1000,
