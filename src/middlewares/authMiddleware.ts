@@ -11,6 +11,7 @@ const JWT_ACCESS_SECRET = process.env.JWT_ACCESS_SECRET;
 export const auth = (req: CustomRequest, res: Response, next: () => void) => {
   //const token = req.headers.authorization;
   const accessToken = req.headers.cookie.split(';');
+  console.log(req.headers.cookie)
   const token = accessToken.filter((word => word.indexOf('accessToken')> -1))[0].split('=')[1]
 
   console.log(token)
