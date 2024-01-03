@@ -10,6 +10,7 @@ interface CustomRequest extends Request {
 
 class ImageController {
   async getAll(req: Request, res: Response) {
+    console.log('image controller get all');
     const result = await service.getAll();
     return res.json(result);
   }

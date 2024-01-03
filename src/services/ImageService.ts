@@ -9,6 +9,7 @@ import ApiError from "../exceptions/apiError";
 
 class ImageService {
   async getAll() {
+    console.log('image service get all');
     return await myDataSource.getRepository(Image).find();
   }
 
