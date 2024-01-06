@@ -42,7 +42,7 @@ app.use("/api/posts", postsRouter);
 app.use("/api/images", imagesRouter);
 app.use("/api/docs", docsRouter);
 app.use("/api/user", usersRouter);
-app.use('api/videos', videosRouter)
+app.use('/api/videos', videosRouter)
 app.use(errorMiddleware);
 
 const PORT = process.env.PORT;
