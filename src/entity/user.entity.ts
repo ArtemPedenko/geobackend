@@ -2,6 +2,7 @@ import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from "typeorm";
 import Image from "./images.entity";
 import Doc from "./doc.entity";
 import Post from "./post.entity";
+import Video from "./video.entity";
 
 @Entity()
 class User {
@@ -27,7 +28,11 @@ class User {
   docs: Doc[];
 
   @OneToMany(() => Post, (post) => post.user)
-  posts: Doc[];
+  posts: Post[];
+
+  @OneToMany(() => Post, (video) => video.user)
+  videos: Video[];
+
 }
 
 export default User;

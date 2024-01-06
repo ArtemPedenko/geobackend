@@ -8,6 +8,7 @@ import docsRouter from "./routes/docsRouter";
 import usersRouter from "./routes/usersRouter";
 import { errorMiddleware } from "./middlewares/errorMiddleware";
 import cors from "cors";
+import videosRouter from "./routes/videosRouter";
 
 myDataSource
   .initialize()
@@ -41,6 +42,7 @@ app.use("/api/posts", postsRouter);
 app.use("/api/images", imagesRouter);
 app.use("/api/docs", docsRouter);
 app.use("/api/user", usersRouter);
+app.use('api/videos', videosRouter)
 app.use(errorMiddleware);
 
 const PORT = process.env.PORT;

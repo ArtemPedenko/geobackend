@@ -9,7 +9,7 @@ class Doc {
   @Column()
   name: string;
 
-  @ManyToOne(() => User, (user) => user.images)
+  @ManyToOne(() => User, (user) => user.docs)
   user: User;
 }
 

@@ -6,6 +6,7 @@ import handler from "../middlewares/handler";
 const postsRouter = Router();
 
 const controller = new PostController();
+
 postsRouter.get("/", handler(controller.getAll));
 postsRouter.get("/:id", handler(controller.getOne));
 postsRouter.post("/", auth, handler(controller.create));

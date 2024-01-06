@@ -12,7 +12,7 @@ class Post {
   @Column()
   date: string;
 
-  @ManyToOne(() => User, (user) => user.images)
+  @ManyToOne(() => User, (user) => user.posts)
   user: User;
 }
 

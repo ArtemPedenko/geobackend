@@ -28,7 +28,6 @@ class PostController {
   }
 
   async delete(req: Request, res: Response) {
-    //find post with same id
     const id = +req.params.id;
     const result = await service.delete({ id: id });
     return res.json(result);
