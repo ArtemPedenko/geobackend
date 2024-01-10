@@ -17,7 +17,7 @@ class PostService {
     if (!post) {
       throw ApiError.BadRequest(`No post with id = ${id}`);
     }
-    return;
+    return post;
   }
 
   async create(payload: Post, userLogin: string) {
