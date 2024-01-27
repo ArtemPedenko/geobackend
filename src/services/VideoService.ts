@@ -17,7 +17,7 @@ class VideoService {
         if (!video) {
             throw ApiError.BadRequest(`No post with id = ${id}`);
         }
-        return;
+        return video;
     }
 
     async create(payload: Video, userLogin: string) {
