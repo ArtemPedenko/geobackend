@@ -7,6 +7,7 @@ import * as path from "path";
 import * as fs from "fs";
 import User from "../entity/user.entity";
 import ApiError from "../exceptions/apiError";
+import Image from "../entity/images.entity";
 
 class DocService {
   async getAll() {
@@ -17,9 +18,20 @@ class DocService {
     file: { mv: (arg0: string) => void; name: string },
     userLogin: string,
   ) {
-    const nameArray = file.name.split(".");
-    const extension = nameArray[nameArray.length - 1];
-    const fileName = uuidv4() + "." + extension;
+
+    async function newFileName(fileName: string) {
+      const file = await myDataSource.getRepository(Doc).findOneBy({name: fileName});
+      if (!file) {
+        return fileName;
+      } else {
+        const fileNameArray = fileName.split('.');
+        const fileExtension = fileNameArray[fileNameArray.length - 1];
+        const newName = fileName.split(fileExtension)[0] + "1" + '.' + fileExtension;
+        return await newFileName(newName);
+      }
+    }
+
+    const fileName = await newFileName(file.name);
     const filePath = path.resolve("public/docs", fileName);
     file.mv(filePath);
     const docObject: DeepPartial<Doc> = {

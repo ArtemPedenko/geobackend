@@ -9,6 +9,9 @@ class Image {
   @Column()
   name: string;
 
+  @Column()
+  alt: string;
+
   @ManyToOne(() => User, (user) => user.images)
   user: User;
 }
