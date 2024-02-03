@@ -18,13 +18,15 @@ function transliterate(text: string) {
 }
 
 async function newFileName(fileName: string, table: any) {
-    const img = await myDataSource.getRepository(table).findOneBy({name: fileName});
+    const translitFileName = transliterate(fileName)
+    console.log(translitFileName)
+    const img = await myDataSource.getRepository(table).findOneBy({name: translitFileName});
     if (!img) {
-        return fileName;
+        return translitFileName;
     } else {
-        const fileNameArray = transliterate(fileName).split('.');
+        const fileNameArray = translitFileName.split('.');
         const fileExtension = fileNameArray[fileNameArray.length - 1];
-        const newName = fileName.split(fileExtension)[0] + "1" + '.' + fileExtension;
+        const newName = translitFileName.split(fileExtension)[0] + "1" + '.' + fileExtension;
         return await newFileName(newName, table);
     }
 }
