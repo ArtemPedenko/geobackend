@@ -2,12 +2,11 @@ import { FindOptionsWhere } from "typeorm/find-options/FindOptionsWhere";
 import { DeepPartial } from "typeorm/common/DeepPartial";
 import myDataSource from "../app-data-source";
 import Doc from "../entity/doc.entity";
-import { v4 as uuidv4 } from "uuid";
 import * as path from "path";
 import * as fs from "fs";
 import User from "../entity/user.entity";
 import ApiError from "../exceptions/apiError";
-import Image from "../entity/images.entity";
+import {newFileName} from "../utils/fileName";
 
 class DocService {
   async getAll() {
@@ -19,19 +18,7 @@ class DocService {
     userLogin: string,
   ) {
 
-    async function newFileName(fileName: string) {
-      const file = await myDataSource.getRepository(Doc).findOneBy({name: fileName});
-      if (!file) {
-        return fileName;
-      } else {
-        const fileNameArray = fileName.split('.');
-        const fileExtension = fileNameArray[fileNameArray.length - 1];
-        const newName = fileName.split(fileExtension)[0] + "1" + '.' + fileExtension;
-        return await newFileName(newName);
-      }
-    }
-
-    const fileName = await newFileName(file.name);
+    const fileName = await newFileName(file.name, Doc);
     const filePath = path.resolve("public/docs", fileName);
     file.mv(filePath);
     const docObject: DeepPartial<Doc> = {
