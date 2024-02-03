@@ -16,12 +16,8 @@ class ImageController {
   }
 
   async upload(req: CustomRequest, res: Response) {
-    console.log('upload');
-
-    const decodedToken = decodeToken(req.headers.cookie);
-    console.log('upload');
-    console.log(req.files.file);
-    const result = await service.upload(req.files.file, decodedToken.login);
+   const decodedToken = decodeToken(req.headers.cookie);
+    const result = await service.upload(req.files.file, req.body.alt,  decodedToken.login);
     return res.send(result);
   }
 
