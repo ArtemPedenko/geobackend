@@ -17,7 +17,7 @@ class DocService {
     file: { mv: (arg0: string) => void; name: string },
     userLogin: string,
   ) {
-
+  console.log(file.name)
     const fileName = await newFileName(file.name, Doc);
     const filePath = path.resolve("public/docs", fileName);
     file.mv(filePath);
