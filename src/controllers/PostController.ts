@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import PostService from "../services/PostService";
-import {decodeToken} from "../utils/jwt";
+import { decodeToken } from "../utils/jwt";
 
 const service = new PostService();
 
@@ -8,6 +8,13 @@ class PostController {
   async getAll(req: Request, res: Response) {
     const result = await service.getAll();
     return res.json(result);
+  }
+
+  async getSlice(req: Request, res: Response) {
+    const start = Number(req.params.start);
+    const end = Number(req.params.end);
+    const results = await service.getSlice(start, end);
+    return res.send(results);
   }
 
   async getOne(req: Request, res: Response) {

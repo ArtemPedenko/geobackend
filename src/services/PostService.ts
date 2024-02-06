@@ -10,6 +10,13 @@ class PostService {
     return await myDataSource.getRepository(Post).find();
   }
 
+  async getSlice(start: number, end: number) {
+    return await myDataSource.getRepository(Post).find({
+      skip: start,
+      take: end,
+    });
+  }
+
   async getOne(id: number) {
     const post = await myDataSource.getRepository(Post).findOneBy({
       id: id,

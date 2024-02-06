@@ -9,6 +9,7 @@ const controller = new PostController();
 
 postsRouter.get("/", handler(controller.getAll));
 postsRouter.get("/:id", handler(controller.getOne));
+postsRouter.get("/:start/:end", handler(controller.getSlice));
 postsRouter.post("/", auth, handler(controller.create));
 postsRouter.put("/:id", auth, handler(controller.change));
 postsRouter.delete("/:id", auth, handler(controller.delete));
